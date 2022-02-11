@@ -9,7 +9,7 @@ import { HomeComponent } from './home/home.component';
 import { CreateNewContactComponent } from './create-new-contact/create-new-contact.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorCatchingInterceptor } from './error-catching.interceptor';
 
 @NgModule({
@@ -24,6 +24,7 @@ import { ErrorCatchingInterceptor } from './error-catching.interceptor';
     AppRoutingModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     BsDatepickerModule.forRoot(),
   ],
   providers: [
