@@ -1,0 +1,228 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+    <div class="text-center font-weight-bold">
+      <h1>Create New Contact</h1>
+    </div>
+
+    <form [formGroup]="createNewContact" (ngSubmit)="onSubmit()">
+      <div id="user-data">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input
+            type="text"
+            id="name"
+            class="form-control"
+            formControlName="name"
+          />
+          <span
+            *ngIf="
+              !createNewContact.get('name').valid &&
+              createNewContact.get('name').touched
+            "
+            class="help-block text-danger"
+          >
+            <span *ngIf="createNewContact.get('name').errors['required']"
+              >This field is required!</span
+            >
+            <span *ngIf="createNewContact.get('phone').errors['minlength']">
+              Name must be 3 characters Long!
+            </span>
+            <span *ngIf="createNewContact.get('phone').errors['maxlength']">
+              Name must be less then 100 characters!
+            </span>
+          </span>
+        </div>
+        <div class="form-group">
+          <label for="address">Address</label>
+          <input
+            type="text"
+            id="address"
+            class="form-control"
+            formControlName="address"
+          />
+          <span
+            *ngIf="
+              !createNewContact.get('address').valid &&
+              createNewContact.get('address').touched
+            "
+            class="help-block text-danger"
+          >
+            <span *ngIf="createNewContact.get('address').errors['required']"
+              >This field is required!</span
+            >
+            <span *ngIf="createNewContact.get('address').errors['minlength']">
+              Address must be 15 characters Long!
+            </span>
+            <span *ngIf="createNewContact.get('address').errors['maxlength']">
+              Address must be less then 250 characters!
+            </span>
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="lastdatecontacted">Last Date Contacted</label>
+          <input
+            class="form-control"
+            #datepickerYMD="bsDatepicker"
+            bsDatepicker
+            formControlName="lastdatecontacted"
+            id="lastdatecontacted"
+            [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+          />
+
+          <span
+            *ngIf="
+              !createNewContact.get('lastdatecontacted').valid &&
+              createNewContact.get('lastdatecontacted').touched
+            "
+            class="help-block text-danger"
+          >
+            <span
+              *ngIf="
+                createNewContact.get('lastdatecontacted').errors['required']
+              "
+              >This field is required!</span
+            >
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="jobtitle">Job Title</label>
+          <input
+            type="text"
+            id="jobtitle"
+            class="form-control"
+            formControlName="jobtitle"
+          />
+
+          <span
+            *ngIf="
+              !createNewContact.get('jobtitle').valid &&
+              createNewContact.get('jobtitle').touched
+            "
+            class="help-block text-danger"
+          >
+            <span *ngIf="createNewContact.get('jobtitle').errors['required']"
+              >This field is required!</span
+            >
+            <span *ngIf="createNewContact.get('address').errors['maxlength']">
+              Job Title must be less then 100 characters!
+            </span>
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone</label>
+          <input
+            type="text"
+            id="phone"
+            class="form-control"
+            formControlName="phone"
+          />
+          <span
+            *ngIf="
+              !createNewContact.get('phone').valid &&
+              createNewContact.get('phone').touched
+            "
+            class="help-block text-danger"
+          >
+            <span *ngIf="createNewContact.get('phone').errors['minlength']"
+              >Phone Number must be 10 characters Long!
+            </span>
+            <span *ngIf="createNewContact.get('phone').errors['maxlength']">
+              Phone Number must be 10 characters Long!
+            </span>
+            <span *ngIf="createNewContact.get('phone').errors['pattern']">
+              Phone Number format is not correct!
+            </span>
+            <span *ngIf="createNewContact.get('phone').errors['required']">
+              This field is required!
+            </span>
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="company">Company</label>
+          <input
+            type="text"
+            id="company"
+            class="form-control"
+            formControlName="company"
+          />
+
+          <span
+            *ngIf="
+              !createNewContact.get('company').valid &&
+              createNewContact.get('company').touched
+            "
+            class="help-block text-danger"
+          >
+            <span *ngIf="createNewContact.get('company').errors['required']"
+              >This field is required!</span
+            >
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="email">E-Mail</label>
+          <input
+            type="email"
+            id="email"
+            class="form-control"
+            formControlName="email"
+          />
+          <span
+            *ngIf="
+              !createNewContact.get('email').valid &&
+              createNewContact.get('email').touched
+            "
+            class="help-block text-danger"
+          >
+            <span *ngIf="createNewContact.get('email').errors['email']"
+              >email format is not correct!</span
+            >
+            <span *ngIf="createNewContact.get('email').errors['required']"
+              >This field is required!</span
+            >
+            <span *ngIf="createNewContact.get('email').errors['maxlength']">
+              Email is more than 150 characters!
+            </span>
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="comments">Comments</label>
+          <textarea
+            id="comments"
+            class="form-control"
+            formControlName="comments"
+            rows="3"
+          ></textarea>
+        </div>
+        <span
+          *ngIf="
+            !createNewContact.get('comments').valid &&
+            createNewContact.get('comments').touched
+          "
+          class="help-block text-danger"
+        >
+          <span *ngIf="createNewContact.get('comments').errors['maxlength']"
+            >Comments are more than 250 characters</span
+          >
+          <span *ngIf="createNewContact.get('comments').errors['required']"
+            >This field is required!</span
+          >
+        </span>
+      </div>
+      <div class="col-sm-10">
+        <button
+          class="btn btn-primary"
+          type="submit"
+          [disabled]="!createNewContact.valid"
+        >
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
