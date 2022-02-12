@@ -92,10 +92,9 @@ export class CreateNewContactComponent implements OnInit {
             .resizeTo('60%', 350)
             .set({
               onshow: null,
-              onclose: function () {
-                this.router.navigate(['/home']);
-              },
+              onclose: function (routers = this.router) {},
             });
+          this.router.navigate(['/home']);
         }
       });
   }
