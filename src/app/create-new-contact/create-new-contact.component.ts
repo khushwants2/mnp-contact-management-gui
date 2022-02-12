@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GlobalConstants } from '../app.globalconstants';
 import { CompaniesListDD, MNPContactManagementDTO } from '../home/home';
+import { ReturnResults } from './create-new-contact';
 import { CreateNewContactService } from './create-new-contact.service';
+declare let alertify: any;
 
 @Component({
   selector: 'app-create-new-contact',
@@ -19,7 +21,8 @@ export class CreateNewContactComponent implements OnInit {
 
   constructor(
     private createNewContactService: CreateNewContactService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -75,5 +78,29 @@ export class CreateNewContactComponent implements OnInit {
     }
   }
 
-  onSubmit() {}
+  onSubmit() {
+    console.log(this.createNewContactFormGroup.value);
+    this.createNewContactService
+      .SaveMNPContactManagement(this.createNewContactFormGroup.value)
+      .subscribe((responseData) => {
+        console.log(responseData);
+        if (responseData.message == 'Contact Saved Succeessfully') {
+          alertify
+            .alert('MNP Contact Management', responseData.message, function () {
+              alertify.success(responseData.message);
+            })
+            .resizeTo('60%', 350)
+            .set({
+              onshow: null,
+              onclose: function () {
+                this.router.navigate(['/home']);
+              },
+            });
+        }
+      });
+  }
+
+  onReset() {
+    this.createNewContactFormGroup.reset();
+  }
 }

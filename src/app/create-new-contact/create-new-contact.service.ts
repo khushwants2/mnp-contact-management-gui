@@ -11,7 +11,7 @@ export class CreateNewContactService {
   homeController: string = GlobalConstants.mnpContactManagementControllerName;
   getMNPContanctManagementById: string =
     GlobalConstants.getMNPContanctManagementById;
-  SaveMNPContanctManagement: string = GlobalConstants.SaveMNPContanctManagement;
+  saveMNPContactManagement: string = GlobalConstants.SaveMNPContanctManagement;
 
   constructor(private http: HttpClient) {}
 
@@ -27,5 +27,14 @@ export class CreateNewContactService {
     );
   }
 
-  getMNPContactManagementList(): void {}
+  SaveMNPContactManagement(data: MNPContactManagementDTO): Observable<any> {
+    console.log('in Save MNP', data);
+    let url: string =
+      this.apiEndpoints + this.homeController + this.saveMNPContactManagement;
+
+    const headers = { 'content-type': 'application/json' };
+    const body = JSON.stringify(data);
+
+    return this.http.post(url, body, { headers: headers });
+  }
 }
