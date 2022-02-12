@@ -6,4 +6,12 @@ export class GlobalConstants {
 
   public static getMNPContanctManagementList: string =
     '/GetMNPContanctManagementList';
+
+  public static getMNPContanctManagementById: string =
+    '/GetMNPContanctManagementById';
+  public static SaveMNPContanctManagement: string =
+    '/SaveMNPContanctManagement';
+
+  //CompaniesDD
+  public static LocalStorage_CompaniesDD: string = 'CompaniesDD';
 }

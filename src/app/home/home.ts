@@ -1,16 +1,16 @@
 export interface CompaniesListDD {
   id: number;
-  ComapnayName: string;
+  comapanyname: string;
 }
 
 export interface MNPContactManagementDTO {
   id: number;
-  ContactName: string;
-  Address: string;
-  LastDateContacted: Date;
-  JobTitle: string;
-  Phone: number;
-  CompanyId: number;
-  Email: string;
-  Comments: string;
+  contactName: string;
+  address: string;
+  lastDateContacted: Date;
+  jobTitle: string;
+  phone: number;
+  companyId: number;
+  email: string;
+  comments: string;
 }

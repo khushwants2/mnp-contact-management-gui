@@ -1,18 +1,35 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { GlobalConstants } from '../app.globalconstants';
+import { CompaniesListDD, MNPContactManagementDTO } from '../home/home';
+import { CreateNewContactService } from './create-new-contact.service';
 
 @Component({
   selector: 'app-create-new-contact',
   templateUrl: './create-new-contact.component.html',
+  providers: [CreateNewContactService],
   styleUrls: ['./create-new-contact.component.css'],
 })
 export class CreateNewContactComponent implements OnInit {
-  createNewContact: FormGroup;
-  constructor() {}
+  createNewContactFormGroup: FormGroup;
+  mnpContactManagementID: number = 0;
+  mnpContactManagementDTO: MNPContactManagementDTO;
+  companiesListDD: CompaniesListDD[];
+
+  constructor(
+    private createNewContactService: CreateNewContactService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.createNewContact = new FormGroup({
-      name: new FormControl(null, [
+    this.companiesListDD = JSON.parse(
+      localStorage.getItem(GlobalConstants.LocalStorage_CompaniesDD)
+    );
+
+    this.createNewContactFormGroup = new FormGroup({
+      id: new FormControl(0, [Validators.required]),
+      contactName: new FormControl(null, [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(100),
@@ -22,8 +39,8 @@ export class CreateNewContactComponent implements OnInit {
         Validators.minLength(15),
         Validators.maxLength(250),
       ]),
-      lastdatecontacted: new FormControl(new Date(), [Validators.required]),
-      jobtitle: new FormControl(null, [
+      lastDateContacted: new FormControl(new Date(), [Validators.required]),
+      jobTitle: new FormControl(null, [
         Validators.required,
         Validators.maxLength(100),
       ]),
@@ -33,7 +50,7 @@ export class CreateNewContactComponent implements OnInit {
         Validators.minLength(10),
         Validators.maxLength(10),
       ]),
-      company: new FormControl(null, [Validators.required]),
+      companyId: new FormControl(null, [Validators.required]),
       email: new FormControl(null, [
         Validators.required,
         Validators.email,
@@ -41,15 +58,20 @@ export class CreateNewContactComponent implements OnInit {
       ]),
       comments: new FormControl(null, [Validators.maxLength(250)]),
     });
-  }
 
-  //only number will be add
-  keyPress(event: any) {
-    const pattern = /[0-9\+\-\ ]/;
+    console.log('Passing Parameter ID: ' + this.route.snapshot.params['id']);
+    this.mnpContactManagementID = this.route.snapshot.params['id'];
+    if (this.mnpContactManagementID == undefined)
+      this.mnpContactManagementID = 0;
 
-    let inputChar = String.fromCharCode(event.charCode);
-    if (event.keyCode != 8 && !pattern.test(inputChar)) {
-      event.preventDefault();
+    if (this.mnpContactManagementID != 0) {
+      this.createNewContactService
+        .getMNPContanctManagementByIdDTO(this.mnpContactManagementID)
+        .subscribe((data) => {
+          console.log('getMNPContanctManagementByIdDTO', data);
+          this.mnpContactManagementDTO = data;
+          this.createNewContactFormGroup.setValue(data);
+        });
     }
   }
 

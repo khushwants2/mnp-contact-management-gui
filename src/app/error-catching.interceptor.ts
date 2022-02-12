@@ -27,9 +27,11 @@ export class ErrorCatchingInterceptor implements HttpInterceptor {
           console.log('This is server side error');
           errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
         }
-        alertify.alert('MNP Contact Management Error', errorMsg, function () {
-          alertify.success('Ok');
-        });
+        alertify
+          .alert('MNP Contact Management Error', errorMsg, function () {
+            alertify.error(errorMsg);
+          })
+          .resizeTo('60%', 350);
         console.log(errorMsg);
         throw new Error(errorMsg);
       })
