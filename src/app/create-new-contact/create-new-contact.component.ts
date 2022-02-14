@@ -1,4 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
+
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+
 import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GlobalConstants } from '../app.globalconstants';
@@ -14,12 +23,16 @@ declare let alertify: any;
   styleUrls: ['./create-new-contact.component.css'],
 })
 export class CreateNewContactComponent implements OnInit {
+  modalRef?: BsModalRef;
+  confirmmodalRef?: BsModalRef;
+  @ViewChild('confirmtemplate') confirmtemplate: TemplateRef<any>;
   createNewContactFormGroup: FormGroup;
   mnpContactManagementID: number = 0;
   mnpContactManagementDTO: MNPContactManagementDTO;
   companiesListDD: CompaniesListDD[];
 
   constructor(
+    private modalService: BsModalService,
     private createNewContactService: CreateNewContactService,
     private route: ActivatedRoute,
     private router: Router
@@ -80,26 +93,47 @@ export class CreateNewContactComponent implements OnInit {
 
   onSubmit() {
     console.log(this.createNewContactFormGroup.value);
+  }
+
+  SaveData() {
     this.createNewContactService
       .SaveMNPContactManagement(this.createNewContactFormGroup.value)
       .subscribe((responseData) => {
         console.log(responseData);
         if (responseData.message == 'Contact Saved Succeessfully') {
-          alertify
-            .alert('MNP Contact Management', responseData.message, function () {
-              alertify.success(responseData.message);
-            })
-            .resizeTo('60%', 350)
-            .set({
-              onshow: null,
-              onclose: function (routers = this.router) {},
-            });
-          this.router.navigate(['/home']);
+          //confirmtemplate
+          this.confirmmodalRef = this.modalService.show(this.confirmtemplate, {
+            class: 'modal-sm',
+          });
         }
       });
   }
 
   onReset() {
     this.createNewContactFormGroup.reset();
+  }
+
+  openConfirmModal(template: TemplateRef<any>) {
+    this.confirmmodalRef = this.modalService.show(template, {
+      class: 'modal-sm',
+    });
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  confirm(): void {
+    this.SaveData();
+    this.modalRef?.hide();
+  }
+
+  decline(): void {
+    this.modalRef?.hide();
+  }
+
+  Navigate(): void {
+    this.confirmmodalRef?.hide();
+    this.router.navigate(['/home']);
   }
 }

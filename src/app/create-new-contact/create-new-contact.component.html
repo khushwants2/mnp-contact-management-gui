@@ -13,7 +13,7 @@
       <h1>Update Contact</h1>
     </div>
 
-    <form [formGroup]="createNewContactFormGroup" (ngSubmit)="onSubmit()">
+    <form [formGroup]="createNewContactFormGroup">
       <div id="user-data">
         <div class="form-group">
           <label for="contactName">Name</label>
@@ -280,17 +280,42 @@
           >
         </span>
       </div>
+      <br />
+      <br />
       <div class="col-sm-10">
         <button
+          type="button"
           class="btn btn-primary"
-          type="submit"
           [disabled]="!createNewContactFormGroup.valid"
+          (click)="openModal(template)"
         >
-          Submit
+          Save
         </button>
-      </div>
-      <div class="col-sm-10">
-        <button class="btn btn-danger" (click)="onReset()">Cancel</button>
+
+        <div class="col-sm-10">
+          <button class="btn btn-danger" (click)="onReset()">Cancel</button>
+        </div>
+
+        <ng-template #template>
+          <div class="modal-body text-center">
+            <p>Do you want to Save?</p>
+            <button type="submit" class="btn btn-default" (click)="confirm()">
+              Yes
+            </button>
+            <button type="button" class="btn btn-danger" (click)="decline()">
+              No
+            </button>
+          </div>
+        </ng-template>
+
+        <ng-template #confirmtemplate>
+          <div class="modal-body text-center">
+            <p>Contact Saved.</p>
+            <button type="button" class="btn btn-primary" (click)="Navigate()">
+              Ok
+            </button>
+          </div>
+        </ng-template>
       </div>
     </form>
   </div>

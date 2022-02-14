@@ -11,7 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorCatchingInterceptor } from './error-catching.interceptor';
-
+import { ModalModule } from 'ngx-bootstrap/modal';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,6 +26,7 @@ import { ErrorCatchingInterceptor } from './error-catching.interceptor';
     BrowserAnimationsModule,
     HttpClientModule,
     BsDatepickerModule.forRoot(),
+    ModalModule.forRoot(),
   ],
   providers: [
     {

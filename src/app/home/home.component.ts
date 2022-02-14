@@ -21,6 +21,10 @@ export class HomeComponent implements OnInit {
     this.getMNPContactManagementListData();
   }
 
+  redirect(): void {
+    this.router.navigate(['/create-new-contact']);
+  }
+
   SetLocalStorage(): void {
     this.homeservie.getCompaniesListDD().subscribe((list) => {
       console.log('CompaniesDD', list);
